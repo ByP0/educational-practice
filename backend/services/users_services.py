@@ -48,6 +48,18 @@ def decode_jwt(token: str) -> dict:
         return decoded_token
     except:
         return None
+    
+def decode_refresh_jwt(token: str) -> dict:
+    try:
+        decoded_token = jwt.decode(token, secret_key, algorithms=[algorithm])
+        data_now = datetime.now(timezone.utc)
+        if decoded_token.get("exp") <= int(data_now.timestamp()):
+            return None
+        if decoded_token.get("type") != "refresh":
+            return None
+        return decoded_token
+    except:
+        return None
 
 def sign_jwt(data: int) -> str:
     payload = {"sub": data}
@@ -57,7 +69,7 @@ def sign_jwt(data: int) -> str:
 
 def sing_refresh_jwt(data: int) -> str:
     payload = {"sub": data}
-    expire = datetime.now(timezone.utc) + timedelta(days=3)
+    expire = datetime.now(timezone.utc) + timedelta(days=30)
     payload.update({"exp": expire, "type": "refresh"})
     return jwt.encode(payload, secret_key, algorithm=algorithm)
 
@@ -65,3 +77,9 @@ def hash_password(password: str) -> bytes:
     salt = bcrypt.gensalt()
     pwd_bytes: bytes = password.encode()
     return bcrypt.hashpw(pwd_bytes, salt)
+
+def validate_password(password: str, hashed_password: bytes) -> bool:
+    return bcrypt.checkpw(
+        password.encode(),
+        hashed_password=hashed_password,
+    )
