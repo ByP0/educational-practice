@@ -1,7 +1,7 @@
-from sqlalchemy import BigInteger, VARCHAR, TIME, ForeignKey, DATE, Text
+from sqlalchemy import BigInteger, VARCHAR, TIME, ForeignKey, DATE, Text, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import date
+from datetime import date, datetime
 
 
 Base = declarative_base()
@@ -34,5 +34,14 @@ class Image(Base):
     filename: Mapped[str] = mapped_column(Text)
     content_type: Mapped[str] = mapped_column(Text)
     image_data: Mapped[str] = mapped_column(Text)
-    fort_id : Mapped[str] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
-    
+    fort_id: Mapped[str] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
+
+
+class Tours(Base):
+    __tablename__ = "tours"
+
+    tour_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    gathering_place: Mapped[str] = mapped_column(Text)
+    tour_date: Mapped[datetime] = mapped_column()
+    number_of_seats: Mapped[int] = mapped_column(Integer)
+    fort_id: Mapped[str] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
