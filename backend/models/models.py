@@ -34,7 +34,7 @@ class Image(Base):
     filename: Mapped[str] = mapped_column(Text)
     content_type: Mapped[str] = mapped_column(Text)
     image_data: Mapped[str] = mapped_column(Text)
-    fort_id: Mapped[str] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
+    fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
 
 
 class Tours(Base):
