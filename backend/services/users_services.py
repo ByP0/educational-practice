@@ -38,16 +38,14 @@ class JWTBearer(HTTPBearer):
 dependencies=[Depends(JWTBearer())]
 
 def decode_jwt(token: str) -> dict:
-    try:
-        decoded_token = jwt.decode(token, secret_key, algorithms=[algorithm])
-        data_now = datetime.now(timezone.utc)
-        if decoded_token.get("exp") <= int(data_now.timestamp()):
-            return None
-        if decoded_token.get("type") != "access":
-            return None
-        return decoded_token
-    except:
+    decoded_token = jwt.decode(token, secret_key, algorithms=[algorithm])
+    data_now = datetime.now(timezone.utc)
+    if decoded_token.get("exp") <= int(data_now.timestamp()):
         return None
+    if decoded_token.get("type") != "access":
+        return None
+    return decoded_token
+
     
 def decode_refresh_jwt(token: str) -> dict:
     try:

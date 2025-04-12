@@ -22,7 +22,7 @@ class Users(Base):
 class Forts(Base):
     __tablename__ = "forts"
 
-    fort_id: Mapped[int] = mapped_column(BigInteger)
+    fort_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     fort_name: Mapped[str] = mapped_column(Text)
     description: Mapped[str] = mapped_column(Text)
 
@@ -44,4 +44,4 @@ class Tours(Base):
     gathering_place: Mapped[str] = mapped_column(Text)
     tour_date: Mapped[datetime] = mapped_column()
     number_of_seats: Mapped[int] = mapped_column(Integer)
-    fort_id: Mapped[str] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
+    fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
