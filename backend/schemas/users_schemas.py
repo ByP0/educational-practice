@@ -24,10 +24,7 @@ class SingUpUser(BaseModel):
                 raise ValueError("Invalid email.")
 
         return value
-
-class TokenPair(BaseModel):
-    access_token: Annotated[str, Field(title="Access jwt token", examples=[example_jwt_token])]
-    refresh_token: Annotated[str, Field(title="Refresh jwt token", examples=[example_jwt_token])]
+    
 
 class SingInUser(BaseModel):
     email: Annotated[str, Field(title="Email address", examples=["example@gmail.com"])]
@@ -44,3 +41,7 @@ class SingInUser(BaseModel):
                 raise ValueError("Invalid email.")
 
         return value
+    
+
+class UserSession(BaseModel):
+    session: Annotated[str, Field(title="User session", examples=["123e4567-e89b-12d3-a456-426614174000"])]

@@ -1,21 +1,23 @@
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, Request, Header
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.database.postgres import get_session
-from backend.services.users_services import dependencies
 from backend.cruds.forts_cruds import get_forts, add_fort_db
 from backend.schemas.forts_schemas import FortAdd, FortsData
 from backend.schemas.response_schemas import Response200
+from backend.cruds.users_cruds import check_session
 
 
-router = APIRouter(tags=["Forts"], prefix="/forts", dependencies=dependencies)
+router = APIRouter(tags=["Forts"], prefix="/forts")
 
 
 @router.get("/all")
 async def get_all_forts(
-    session: AsyncSession = Depends(get_session)
+    user_session: Annotated[str, Header(title="User session", example="123e4567-e89b-12d3-a456-426614174000")],
+    session: AsyncSession = Depends(get_session),
 ):
+    await check_session(user_session=user_session, session=session)
     forts_data = await get_forts(session=session)
     return forts_data
 

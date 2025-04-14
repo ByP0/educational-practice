@@ -3,13 +3,12 @@ from typing import Annotated, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.database.postgres import get_session
-from backend.services.users_services import dependencies
 from backend.cruds.tours_cruds import get_tours_by_fort_id, delete_tour_db, add_tour_db
 from backend.schemas.tours_schemas import ToursData, TourAdd
 from backend.schemas.response_schemas import Response200
 
 
-router = APIRouter(tags=["Tours"], prefix="/tours", dependencies=dependencies)
+router = APIRouter(tags=["Tours"], prefix="/tours")
 
 
 @router.post("/add")

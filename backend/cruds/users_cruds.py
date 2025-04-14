@@ -1,11 +1,27 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result
 from fastapi import HTTPException
+import uuid
 
-from backend.models.models import Users
+from backend.models.models import Users, Sessions
 from backend.schemas.users_schemas import SingUpUser, SingInUser
 from backend.services.users_services import hash_password
 
+async def add_session(user_id: int, session: AsyncSession):
+    user_session = str(uuid.uuid4())
+    data_for_db = Sessions(session=user_session, user_id=user_id)
+    session.add(data_for_db)
+    await session.commit()
+    await session.refresh(data_for_db)
+    return user_session
+
+async def check_session(user_session: str, session: AsyncSession):
+    try:
+        stmt = select(Sessions).where(Sessions.session == user_session)
+        result: Result = await session.execute(stmt)
+        return result.scalar_one()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 async def register_user(data: SingUpUser, session: AsyncSession):
     try:

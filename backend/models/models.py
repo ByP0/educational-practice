@@ -45,3 +45,10 @@ class Tours(Base):
     tour_date: Mapped[datetime] = mapped_column()
     number_of_seats: Mapped[int] = mapped_column(Integer)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
+
+
+class Sessions(Base):
+    __tablename__ = "sessions"
+
+    session: Mapped[str] = mapped_column(Text, primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
