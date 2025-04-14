@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result
 from backend.models.models import Tours
-from backend.schemas.tours_schemas import ToursData, TourAdd
+from backend.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 
 async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[ToursData]:
@@ -32,3 +32,16 @@ async def add_tour_db(data: TourAdd, session: AsyncSession):
     await session.commit()
     await session.refresh(data_for_db)
     
+async def patch_tour_tb(data: TourPatch, session: AsyncSession):
+    stmt = select(Tours).where(Tours.tour_id == data.tour_id)
+    result: Result = await session.execute(stmt)
+    tour = result.scalar_one_or_none()
+    if data.fort_id != tour.fort_id:
+        tour.fort_id = data.fort_id
+    if data.gathering_place != tour.gathering_place:
+        tour.gathering_place = data.gathering_place
+    if data.tour_date != tour.tour_date:
+        tour.tour_date = data.tour_date
+    if data.number_of_seats != tour.number_of_seats:
+        tour.number_of_seats = data.number_of_seats
+    await session.commit()
