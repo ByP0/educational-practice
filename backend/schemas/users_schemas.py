@@ -2,8 +2,6 @@ from pydantic import BaseModel, Field, field_validator
 from typing import Annotated
 from email_validator import validate_email
 
-from backend.config import example_jwt_token
-
 
 class SingUpUser(BaseModel):
     first_name: Annotated[str, Field(title="First name", examples=["Иван"])]
