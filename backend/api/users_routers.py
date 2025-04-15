@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, Header
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.schemas.users_schemas import SingUpUser, SingInUser, UserSession
+from backend.schemas.users_schemas import SingUpUser, SingInUser, UserSession, UserSchema
 from backend.database.postgres import get_session
-from backend.cruds.users_cruds import register_user, get_user_by_email, add_session
+from backend.cruds.users_cruds import register_user, get_user_by_email, add_session, get_user_by_session
 from backend.services.users_services import validate_password
 
 
@@ -33,3 +33,12 @@ async def sing_in_user(
         raise HTTPException(status_code=404, detail="Invalid password")
     user_session = await add_session(user_id=user.user_id, session=session)
     return UserSession(session=user_session)
+
+
+@router.get("/me", response_model=UserSchema)
+async def get_user(
+    user_session: Annotated[str, Header(title="User session", example="123e4567-e89b-12d3-a456-426614174000")],
+    session: AsyncSession = Depends(get_session)
+):
+    user = await get_user_by_session(user_session=user_session, session=session)
+    return user

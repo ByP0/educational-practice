@@ -32,7 +32,7 @@ async def get_tours_fort(
     return tours
 
 
-@router.delete("/", response_model=Response200)
+@router.delete("/delete", response_model=Response200)
 async def delete_tour(
     tour_id: Annotated[Optional[int], Query(title="Fort ID", example=1)],
     session: AsyncSession = Depends(get_session),
@@ -42,3 +42,8 @@ async def delete_tour(
         return Response200(detail="Succesful deleted")
     except:
         raise HTTPException(status_code=500, detail="Server Error")
+    
+
+@router.patch("/patch", response_model=Response200)
+async def patch_tour():
+    pass

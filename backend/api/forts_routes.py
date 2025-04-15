@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, Request, Header
-from typing import Annotated
+from fastapi import APIRouter, Depends, Request, Header, Query, UploadFile, File
+from typing import Annotated, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.database.postgres import get_session
-from backend.cruds.forts_cruds import get_forts, add_fort_db
+from backend.cruds.forts_cruds import get_forts, add_fort_db, add_image_fort
 from backend.schemas.forts_schemas import FortAdd, FortsData
 from backend.schemas.response_schemas import Response200
 from backend.cruds.users_cruds import check_session
@@ -33,5 +33,10 @@ async def add_fort(
 
 
 @router.post("/upload_image")
-async def upload_image():
-    pass
+async def upload_image(
+    fort_id: Annotated[int, Query(title="Fort ID", example=1)],
+    image: UploadFile,
+    session: AsyncSession = Depends(get_session)
+):
+    await add_image_fort(fort_id=fort_id, image=image, session=session)
+    return True
