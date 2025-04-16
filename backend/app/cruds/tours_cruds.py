@@ -3,8 +3,8 @@ from sqlalchemy.exc import NoResultFound
 from sqlalchemy import select, Result
 from fastapi import HTTPException
 
-from backend.models.models import Tours
-from backend.schemas.tours_schemas import ToursData, TourAdd, TourPatch
+from app.models.models import Tours
+from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 
 async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[ToursData]:

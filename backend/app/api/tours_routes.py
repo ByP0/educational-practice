@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import Annotated, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.database.postgres import get_session
-from backend.cruds.tours_cruds import get_tours_by_fort_id, delete_tour_db, add_tour_db, patch_tour_tb
-from backend.schemas.tours_schemas import ToursData, TourAdd, TourPatch
-from backend.schemas.response_schemas import Response200
+from app.database.postgres import get_session
+from app.cruds.tours_cruds import get_tours_by_fort_id, delete_tour_db, add_tour_db, patch_tour_tb
+from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
+from app.schemas.response_schemas import Response200
 
 
 router = APIRouter(tags=["Tours"], prefix="/tours")

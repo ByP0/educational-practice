@@ -3,9 +3,9 @@ from sqlalchemy import select, Result
 from fastapi import HTTPException
 import uuid
 
-from backend.models.models import Users, Sessions
-from backend.schemas.users_schemas import SingUpUser, SingInUser, UserSchema
-from backend.services.users_services import hash_password
+from app.models.models import Users, Sessions
+from app.schemas.users_schemas import SingUpUser, SingInUser, UserSchema
+from app.services.users_services import hash_password
 
 async def add_session(user_id: int, session: AsyncSession):
     user_session = str(uuid.uuid4())

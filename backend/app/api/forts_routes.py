@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, Request, Header, Query, UploadFile, File
 from typing import Annotated, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.database.postgres import get_session
-from backend.cruds.forts_cruds import get_forts, add_fort_db, add_image_fort, get_one_fort
-from backend.schemas.forts_schemas import FortAdd, FortsData
-from backend.schemas.response_schemas import Response200
-from backend.cruds.users_cruds import check_session
+from app.database.postgres import get_session
+from app.cruds.forts_cruds import get_forts, add_fort_db, add_image_fort, get_one_fort
+from app.schemas.forts_schemas import FortAdd, FortsData
+from app.schemas.response_schemas import Response200
+from app.cruds.users_cruds import check_session
 
 
 router = APIRouter(tags=["Forts"], prefix="/forts")

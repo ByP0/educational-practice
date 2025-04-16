@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, Header
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.schemas.users_schemas import SingUpUser, SingInUser, UserSession, UserSchema
-from backend.database.postgres import get_session
-from backend.cruds.users_cruds import register_user, get_user_by_email, add_session, get_user_by_session
-from backend.services.users_services import validate_password
+from app.schemas.users_schemas import SingUpUser, SingInUser, UserSession, UserSchema
+from app.database.postgres import get_session
+from app.cruds.users_cruds import register_user, get_user_by_email, add_session, get_user_by_session
+from app.services.users_services import validate_password
 
 
 router = APIRouter(tags=["Users"])

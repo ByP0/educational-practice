@@ -3,8 +3,8 @@ from sqlalchemy import select, Result
 import base64
 from fastapi import HTTPException
 
-from backend.models.models import Forts, Image
-from backend.schemas.forts_schemas import FortAdd, FortsData
+from app.models.models import Forts, Image
+from app.schemas.forts_schemas import FortAdd, FortsData
 
 
 async def get_forts(session: AsyncSession) -> list[FortsData]:
