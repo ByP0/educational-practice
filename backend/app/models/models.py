@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, VARCHAR, TIME, ForeignKey, DATE, Text, Integer
+from sqlalchemy import BigInteger, VARCHAR, TIME, ForeignKey, DATE, Text, Integer, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date, datetime
@@ -33,7 +33,7 @@ class Image(Base):
     image_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     filename: Mapped[str] = mapped_column(Text)
     content_type: Mapped[str] = mapped_column(Text)
-    image_data: Mapped[str] = mapped_column(Text)
+    image_data: Mapped[bytes] = mapped_column(LargeBinary)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
 
 
