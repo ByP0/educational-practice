@@ -35,3 +35,13 @@ services:
       - postgres
     restart: on-failure:2
   
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/:/usr/src/frontend_app
