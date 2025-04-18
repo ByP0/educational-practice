@@ -30,24 +30,45 @@ import './auth.css'
             },
             resolver:yupResolver(authFormScheme)
         })
+
+         const onSubmit=async(data)=>{
+            console.log(data)
+            try{
+                const res = await fetch(`http://localhost:8000/sing_in`,{
+                    method:"POST",
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'email': data.email,
+                        'password': data.password
+                      })
+                })
+                
+                if (!res.ok) throw new Error('Ошибка сервера');
+            }catch(e){
+                console.error('Ошибка:', e);
+            alert('Ошибка при отправке: ' + e.message);
+            }
+            
+          
+         }
         
-    
-
-
     return(
         <div className="form">
-            <form className="form-auth" onSubmit={handleSubmit()}>
+            <form className="form-auth" onSubmit={handleSubmit(onSubmit)}>
                 <h2>Вход</h2>
                 <div>
                     <p>Электронная почта</p>
-                <Input placeholder='Введите email...'{...register('email')}/>
-               
+                <Input placeholder='Введите email...'name='email'{...register('email')}/>
+                {errors.email&&<div>{errors.email.message}</div>}
                 </div>
                 <div>
                     <p>Пароль</p>
-                <Input placeholder='Введите пароль...'{...register('password')}/>
+                <Input placeholder='Введите пароль...'name='password'{...register('password')}/>
+                {errors.password && <div>{errors.password.message}</div>}
                 </div>
-                <Button>Войти</Button>  
+                <Button type="submit">Войти</Button>  
             </form>
         </div>
     )
