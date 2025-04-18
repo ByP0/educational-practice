@@ -6,12 +6,13 @@ from app.schemas.users_schemas import SingUpUser, SingInUser, UserSession, UserS
 from app.database.postgres import get_session
 from app.cruds.users_cruds import register_user, get_user_by_email, add_session, get_user_by_session
 from app.services.users_services import validate_password
+from app.cruds.users_cruds import check_session
 
 
 router = APIRouter(tags=["Users"])
 
 
-@router.post("/sing_up", response_model=UserSession)
+@router.post("/sign_up", response_model=UserSession)
 async def sing_up_user(
     data: SingUpUser,
     session: AsyncSession = Depends(get_session)
@@ -21,7 +22,7 @@ async def sing_up_user(
     return UserSession(session=user_session)
 
 
-@router.post("/sing_in", response_model=UserSession)
+@router.post("/sign_in", response_model=UserSession)
 async def sing_in_user(
     data: SingInUser,
     session: AsyncSession = Depends(get_session)
