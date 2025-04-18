@@ -1,8 +1,7 @@
 import { Input } from "./componets/Input"
 import { Button } from "./componets/Button"
 import { yupResolver } from "@hookform/resolvers/yup";
-// import{useNavigate} from 'react-router-dom'
-// import { useDispatch } from "react-redux";
+
 import { useForm } from 'react-hook-form'
 import { useOnSubmit } from "../../../hooks/useOnSubmit.jsx";
 import * as yup from 'yup'
@@ -25,8 +24,7 @@ import './auth.css'
 
     export const AuthorizeForm=()=>{
 
-        // const navigate= useNavigate()
-        // const dispatch = useDispatch()
+        
 
         const {register,handleSubmit,formState:{errors}}=useForm({
             defaultValues:{

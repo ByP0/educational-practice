@@ -1,10 +1,13 @@
  import{useNavigate} from 'react-router-dom'
+ import { getUser } from '../api/get-user'
+ import {setUser} from '../action/set-user'
+ import { useDispatch } from 'react-redux'
 
 
 export const useOnSubmit=()=>{
 
+    const dispatch = useDispatch()
     const navigate= useNavigate()
-    
 
     return async (data)=>{
         try{
@@ -22,14 +25,14 @@ export const useOnSubmit=()=>{
                 alert('Пользователь не найден')
             }
             const userSession = await res.json()
-            if(userSession.session) navigate('/')
+            if(userSession.session){
+                 const userData=await getUser(userSession.session)
+                 dispatch(setUser(userData))
+                navigate('/')
+            }
         }catch(e){
             console.error('Ошибка:', e);
         alert('Ошибка при отправке: ' + e.message);
         }
     }
-
-   
-    
-  
  }
