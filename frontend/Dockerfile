@@ -1,17 +1,13 @@
-FROM node:16.18-alpine
+FROM node:22.12.0-alpine
 
-WORKDIR /usr/src/frontend_app
+WORKDIR /front
 
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
-
-RUN npm install -g vite
+RUN npm install
 
 COPY . .
 
-EXPOSE 3000
-
-RUN ls -la ./node_modules/.bin
+EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
