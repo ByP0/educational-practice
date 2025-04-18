@@ -1,7 +1,10 @@
 import { Input } from "./componets/Input"
 import { Button } from "./componets/Button"
 import { yupResolver } from "@hookform/resolvers/yup";
+// import{useNavigate} from 'react-router-dom'
+// import { useDispatch } from "react-redux";
 import { useForm } from 'react-hook-form'
+import { useOnSubmit } from "../../../hooks/useOnSubmit.jsx";
 import * as yup from 'yup'
 import './auth.css'
 ;
@@ -22,6 +25,8 @@ import './auth.css'
 
     export const AuthorizeForm=()=>{
 
+        // const navigate= useNavigate()
+        // const dispatch = useDispatch()
 
         const {register,handleSubmit,formState:{errors}}=useForm({
             defaultValues:{
@@ -31,28 +36,9 @@ import './auth.css'
             resolver:yupResolver(authFormScheme)
         })
 
-         const onSubmit=async(data)=>{
-            console.log(data)
-            try{
-                const res = await fetch(`http://localhost:8000/sing_in`,{
-                    method:"POST",
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'email': data.email,
-                        'password': data.password
-                      })
-                })
-                
-                if (!res.ok) throw new Error('Ошибка сервера');
-            }catch(e){
-                console.error('Ошибка:', e);
-            alert('Ошибка при отправке: ' + e.message);
-            }
-            
-          
-         }
+        const onSubmit=useOnSubmit()
+
+        
         
     return(
         <div className="form">
