@@ -4,7 +4,7 @@ from fastapi import HTTPException
 import uuid
 
 from app.models.models import Users, Sessions
-from app.schemas.users_schemas import SingUpUser, SingInUser, UserSchema
+from app.schemas.users_schemas import SingUpUser, UserSchema
 from app.services.users_services import hash_password
 
 async def add_session(user_id: int, session: AsyncSession):

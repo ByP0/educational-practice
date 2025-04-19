@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, Request, Header, Query, UploadFile, File
-from typing import Annotated, Optional
+from fastapi import APIRouter, Depends, Header, Query, UploadFile
+from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.postgres import get_session

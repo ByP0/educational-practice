@@ -1,7 +1,7 @@
-from sqlalchemy import BigInteger, VARCHAR, TIME, ForeignKey, DATE, Text, Integer, LargeBinary
+from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import date, datetime
+from sqlalchemy.orm import Mapped, mapped_column
+from datetime import datetime
 
 
 Base = declarative_base()
