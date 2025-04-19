@@ -37,7 +37,7 @@ async def register_user(data: SingUpUser, session: AsyncSession):
         await session.refresh(data_for_db)
         return int(data_for_db.user_id)
     except:
-        raise HTTPException(status_code=409, detail="The email address is already associated with another account.")
+        raise HTTPException(status_code=400, detail="The email address is already associated with another account.")
 
 async def get_user_by_email(email: str, session: AsyncSession):
     stmt = select(Users).where(Users.email == email)

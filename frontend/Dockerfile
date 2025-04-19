@@ -1,13 +1,17 @@
-FROM node:22.12.0-alpine
+FROM node:20-alpine AS build
 
-WORKDIR /front
+RUN mkdir /app
 
-COPY package*.json ./
+WORKDIR /app
 
-RUN npm install
+COPY ./ /app
 
-COPY . .
+RUN npm install -g npm@11.3.0
 
-EXPOSE 5173
+RUN npm install 
+
+RUN npm install vite-plugin-compression --save-dev
+
+EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
