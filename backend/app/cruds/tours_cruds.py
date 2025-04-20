@@ -30,12 +30,13 @@ async def delete_tour_db(tour_id: int, session: AsyncSession):
     await session.delete(tour)
     await session.commit()
 
-async def add_tour_db(data: TourAdd, session: AsyncSession):
+async def add_tour_db(data: TourAdd, session: AsyncSession, user_id: int):
     data_for_db = Tours(
         gathering_place=data.gathering_place,
         tour_date=data.tour_date,
         number_of_seats=data.number_of_seats,
-        fort_id=data.fort_id
+        fort_id=data.fort_id,
+        user_id=user_id,
     )
     session.add(data_for_db)
     await session.commit()

@@ -18,9 +18,9 @@ async def add_tour(
     user_session: Annotated[str, Header(title="User session", example="123e4567-e89b-12d3-a456-426614174000")],
     session: AsyncSession = Depends(get_session),
 ):
-    await check_session(user_session=user_session, session=session)
+    user = await check_session(user_session=user_session, session=session)
     try:
-        await add_tour_db(data=data, session=session)
+        await add_tour_db(data=data, session=session, user_id=user)
         return Response200
     except:
         raise HTTPException(status_code=500, detail="Server Error")

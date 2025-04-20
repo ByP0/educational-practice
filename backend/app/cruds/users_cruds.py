@@ -19,7 +19,10 @@ async def check_session(user_session: str, session: AsyncSession):
     try:
         stmt = select(Sessions).where(Sessions.session == user_session)
         result: Result = await session.execute(stmt)
-        return result.scalar_one()
+        user = result.scalar_one_or_none()
+        if user is None:
+            raise HTTPException(status_code=401, detail="Not auth")
+        return user.user_id
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
