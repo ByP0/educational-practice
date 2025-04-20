@@ -66,14 +66,17 @@ async def get_one_fort(fort_id: int, session: AsyncSession) -> FortsData:
     )
 
 async def add_fort_db(data: FortAdd, session: AsyncSession):
-    data_for_db = Forts(
-        fort_id=data.fort_id,
-        fort_name=data.fort_name,
-        description=data.description,
-    )
-    session.add(data_for_db)
-    await session.commit()
-    await session.refresh(data_for_db)
+    try:
+        data_for_db = Forts(
+            fort_id=data.fort_id,
+            fort_name=data.fort_name,
+            description=data.description,
+        )
+        session.add(data_for_db)
+        await session.commit()
+        await session.refresh(data_for_db)
+    except:
+        raise HTTPException(status_code=409, detail="Item with this ID already exists")
 
 async def add_image_fort(fort_id: int, image, session: AsyncSession):
     image_data = await image.read()
