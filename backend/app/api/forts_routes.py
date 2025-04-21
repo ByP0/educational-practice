@@ -44,11 +44,11 @@ async def add_fort(
     
 
 
-@router.post("/upload_image")
+@router.post("/upload_image", response_model=Response200)
 async def upload_image(
     fort_id: Annotated[int, Query(title="Fort ID", example=1)],
     image: UploadFile,
     session: AsyncSession = Depends(get_session)
 ):
     await add_image_fort(fort_id=fort_id, image=image, session=session)
-    return True
+    return Response200
