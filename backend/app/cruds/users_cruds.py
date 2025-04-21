@@ -21,7 +21,7 @@ async def check_session(user_session: str, session: AsyncSession):
         result: Result = await session.execute(stmt)
         user = result.scalar_one_or_none()
         if user is None:
-            raise HTTPException(status_code=401, detail="Not auth")
+            raise HTTPException(status_code=401, detail="Not authorized")
         return user.user_id
     except HTTPException as http_exc:
         raise http_exc

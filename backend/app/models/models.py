@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary
+from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
@@ -16,7 +16,7 @@ class Users(Base):
     patronymic: Mapped[str] = mapped_column(Text)
     email: Mapped[str] = mapped_column(Text, unique=True)
     password: Mapped[str] = mapped_column(Text)
-    birth_date: Mapped[str] = mapped_column(Text)
+    birth_date: Mapped[date] = mapped_column(Date)
 
 
 class Forts(Base):
@@ -42,7 +42,7 @@ class Tours(Base):
 
     tour_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     gathering_place: Mapped[str] = mapped_column(Text)
-    tour_date: Mapped[datetime] = mapped_column()
+    tour_date: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True))
     number_of_seats: Mapped[int] = mapped_column(Integer)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
