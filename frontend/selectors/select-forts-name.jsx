@@ -1,0 +1,1 @@
+export const seletFortsName =({forts})=>forts.fort_name

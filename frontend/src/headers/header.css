@@ -5,6 +5,8 @@
   padding: 0 20px;
   margin-top: -30px;
   background-color: #fff;
+  position: relative;
+  z-index: 100;
 }
 
 .header-control {
@@ -17,11 +19,11 @@
 .label {
   font-size: 36px;
   font-weight: bold;
-  text-align: center;
   background: linear-gradient(90deg, #d9a970, #000);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: flex;
 }
 .menu {
   display: flex;
@@ -59,4 +61,59 @@
 }
 .link-entry {
   text-decoration: none;
+}
+.mobile-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: 0.3s;
+  z-index: 1001;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.mobile-menu.open {
+  transform: translateX(0%);
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.nav-links {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+}
+.link-menu {
+  margin-bottom: 20px;
+  font-size: 30px;
+  text-decoration: none;
+  color: #4e4242;
+  transition: color 0.5s;
+}
+.link-menu:hover {
+  color: #000;
+}
+.btn-exit {
+  display: flex;
+  margin-top: 650px;
+  align-items: center;
+  font-size: 24px;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4e4242;
+  transition: color 0.5s;
+}
+.btn-exit:hover {
+  color: #000;
 }

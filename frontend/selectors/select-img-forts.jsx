@@ -1,0 +1,1 @@
+export const selectImgForts=({forts})=>forts.images[0]?.image_data

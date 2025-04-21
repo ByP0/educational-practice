@@ -2,6 +2,7 @@ import { Input } from "./componets/Input"
 import { Button } from "./componets/Button"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form'
+import { OnSubmit } from "../../../components/onSubmit.jsx";
 import * as yup from 'yup'
 import './auth.css'
 ;
@@ -22,6 +23,7 @@ import './auth.css'
 
     export const AuthorizeForm=()=>{
 
+        
 
         const {register,handleSubmit,formState:{errors}}=useForm({
             defaultValues:{
@@ -30,24 +32,26 @@ import './auth.css'
             },
             resolver:yupResolver(authFormScheme)
         })
+
+        const onSubmitUser=OnSubmit()
+
         
-    
-
-
+        
     return(
         <div className="form">
-            <form className="form-auth" onSubmit={handleSubmit()}>
+            <form className="form-auth" onSubmit={handleSubmit(onSubmitUser)}>
                 <h2>Вход</h2>
                 <div>
                     <p>Электронная почта</p>
-                <Input placeholder='Введите email...'{...register('email')}/>
-               
+                <Input placeholder='Введите email...'name='email'{...register('email')}/>
+                {errors.email&&<div>{errors.email.message}</div>}
                 </div>
                 <div>
                     <p>Пароль</p>
-                <Input placeholder='Введите пароль...'{...register('password')}/>
+                <Input placeholder='Введите пароль...'name='password'{...register('password')}/>
+                {errors.password && <div>{errors.password.message}</div>}
                 </div>
-                <Button>Войти</Button>  
+                <Button type="submit">Войти</Button>  
             </form>
         </div>
     )

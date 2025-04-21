@@ -1,0 +1,1 @@
+export const selectDesForts=({forts})=>forts.description

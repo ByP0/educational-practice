@@ -4,12 +4,14 @@ import { MdArrowForwardIos } from "react-icons/md";
 import img1 from './images/image 1.png'
  import img2 from './images/image 2.png'
  import img3 from './images/image 3.png'
-// import img4 from './images/image.png'
+ import img4 from './images/image.png'
 import img5 from './images/image 4.png'
 import img6 from './images/image 5.png'
 import img7 from './images/image 6.png'
 import './main-page.css'
 import { useState } from "react"
+import { Link } from "react-router-dom";
+import { Card } from "./components/card";
 
 
 export const MainPage=()=>{
@@ -35,28 +37,18 @@ export const MainPage=()=>{
                 <button onClick={nextImage} className="arrow right-arrow"><MdArrowForwardIos/></button>
             </div>
             <div className="card">
-                <div className="card-1">
-                    <img src={img2} className="card-image"/>
-                    <div className="card-content">
-                    <h3>Форт № 1 «штайн»</h3>
-                    </div>
-                </div>
-                <div className="card-2">
-                    <img src={img3} className="card-image"/>
-                    <div className="card-content">
-                    <h3>Форт № 5 <br/>
-                    «Король Фридрих-Вильгельм III»</h3>
-                    </div>
-                </div>
-                <div className="card-3">
-                    <img src={img3} className="card-image"/>
-                    <div className="card-content">
-                    <h3>Форт № 11 «Дёнхофф»</h3>
-                    </div>
-                </div>
+            <h2 className="title-create">Создай свою эксурксию!</h2>
+                <Link className="link-card-1" to='/forts/1'>
+                <Card img={img2} id={'1'} children='Форт № 1 «штайн»'/>
+                </Link>
+                <Link className="link-card-1" to='/forts/5'>
+                <Card img={img3} id={'2'}><div className="card-title">Форт № 5 </div>
+                    <div className="card-subtitle">«Король Фридрих-Вильгельм III»</div></Card>
+                </Link>
+                <Link className="link-card-1" to='/forts/11'>
+                <Card img={img4} id={'3'} children='Форт № 11 «Дёнхофф»'/>
+                </Link>
             </div>
-            
-
         </div>
     )
 }

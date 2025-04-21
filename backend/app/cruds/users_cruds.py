@@ -45,7 +45,7 @@ async def register_user(data: SingUpUser, session: AsyncSession):
 async def get_user_by_email(email: str, session: AsyncSession):
     stmt = select(Users).where(Users.email == email)
     result: Result = await session.execute(stmt)
-    return result.scalar_one_or_none()
+    return result.scalar_one_or_none() 
 
 
 async def get_user_by_session(user_session: str, session: AsyncSession):
