@@ -53,7 +53,7 @@ async def get_one_fort(fort_id: int, session: AsyncSession) -> FortsData:
             "image_id": image.image_id,
             "filename": image.filename,
             "content_type": image.content_type,
-            "image_data": base64.b64encode(image.image_data).decode('utf-8'),
+            "image_data": base64.b64encode(image.image_data.encode('utf-8')).decode('utf-8') if isinstance(image.image_data, str) else base64.b64encode(image.image_data).decode('utf-8'),
         }
         for image in images
     ]

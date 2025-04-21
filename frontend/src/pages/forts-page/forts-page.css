@@ -1,0 +1,143 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-bg {
+  background: #f2e4ca;
+  min-height: 100vh;
+}
+
+.header-forts-container {
+  background: #f2e4ca; /* Бежевый контейнер */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px; /* Отступ сверху для header */
+}
+
+.header-forts {
+  background: #fff;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding: 14px 44px;
+  font-size: 2.4rem;
+  font-weight: 700;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+  margin-top: -32px;
+}
+.main-card {
+  background: #fff;
+  margin-top: 150px;
+  margin-left: 100px;
+  display: flex;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.img-forts {
+  width: 450px;
+  object-fit: cover;
+  display: flex;
+  padding-left: 20px;
+}
+.description-block {
+  font-size: 30px;
+  margin-left: 200px;
+  margin-right: 400px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #f2e4ca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 7px solid #ededed;
+  border-top: 7px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.data-tours {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 40px;
+  margin-left: 200px;
+  gap: 45px 15px;
+}
+.int {
+  width: 400px;
+  margin-left: 100px;
+  font-size: 20px;
+  border-radius: 7px;
+  padding-left: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #fff;
+}
+.title-1 {
+  font-size: 20px;
+  margin-left: 104px;
+  margin-bottom: 10px;
+}
+.btn-add {
+  width: 300px;
+  height: 50px;
+  margin-left: 150px;
+  background-color: #fff;
+  color: #000;
+  font-size: 20px;
+  border-radius: 12px;
+  border: 1px solid#fff;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.btn-add-pic {
+  width: 300px;
+  height: 50px;
+  background-color: #f2e4ca;
+  color: #000;
+  font-size: 20px;
+  border-radius: 12px;
+  border: 2px solid#000;
+  margin-left: 150px;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.btn-add:hover {
+  background-color: rgb(0, 0, 0);
+  transition: 0.5s;
+  border: 1px solid #000;
+  color: #fff;
+}
+.btn-add-pic:hover {
+  background-color: rgb(0, 0, 0);
+  transition: 0.5s;
+  color: #fff;
+}

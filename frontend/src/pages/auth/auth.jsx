@@ -1,9 +1,8 @@
 import { Input } from "./componets/Input"
 import { Button } from "./componets/Button"
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { useForm } from 'react-hook-form'
-import { useOnSubmit } from "../../../hooks/useOnSubmit.jsx";
+import { OnSubmit } from "../../../components/onSubmit.jsx";
 import * as yup from 'yup'
 import './auth.css'
 ;
@@ -34,13 +33,13 @@ import './auth.css'
             resolver:yupResolver(authFormScheme)
         })
 
-        const onSubmit=useOnSubmit()
+        const onSubmitUser=OnSubmit()
 
         
         
     return(
         <div className="form">
-            <form className="form-auth" onSubmit={handleSubmit(onSubmit)}>
+            <form className="form-auth" onSubmit={handleSubmit(onSubmitUser)}>
                 <h2>Вход</h2>
                 <div>
                     <p>Электронная почта</p>

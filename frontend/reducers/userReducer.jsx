@@ -14,7 +14,7 @@ export const userReducer=(state=initialState,action)=>{
         case ACTION_TYPE.SET_USER:{
             return{
                 ...state,
-                ...action.type
+                ...action.payload
             }
         }
         default:

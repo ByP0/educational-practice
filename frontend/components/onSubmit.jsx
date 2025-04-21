@@ -4,7 +4,7 @@
  import { useDispatch } from 'react-redux'
 
 
-export const useOnSubmit=()=>{
+export const OnSubmit=()=>{
 
     const dispatch = useDispatch()
     const navigate= useNavigate()
@@ -25,7 +25,9 @@ export const useOnSubmit=()=>{
                 alert('Пользователь не найден')
             }
             const userSession = await res.json()
+            console.log(userSession.session);
             if(userSession.session){
+                localStorage.setItem('session',userSession.session)
                  const userData=await getUser(userSession.session)
                  dispatch(setUser(userData))
                 navigate('/')
@@ -36,3 +38,4 @@ export const useOnSubmit=()=>{
         }
     }
  }
+ 
