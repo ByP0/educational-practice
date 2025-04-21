@@ -1,7 +1,7 @@
-from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary, TIMESTAMP
+from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary, Date, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import datetime
+from datetime import datetime, date
 
 
 Base = declarative_base()
@@ -42,7 +42,7 @@ class Tours(Base):
 
     tour_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     gathering_place: Mapped[str] = mapped_column(Text)
-    tour_date: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True))
+    tour_date: Mapped[datetime] = mapped_column()
     number_of_seats: Mapped[int] = mapped_column(Integer)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
