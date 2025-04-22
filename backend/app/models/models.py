@@ -1,7 +1,7 @@
-from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary
+from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary, Date, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import datetime
+from datetime import datetime, date
 
 
 Base = declarative_base()
@@ -16,7 +16,7 @@ class Users(Base):
     patronymic: Mapped[str] = mapped_column(Text)
     email: Mapped[str] = mapped_column(Text, unique=True)
     password: Mapped[str] = mapped_column(Text)
-    birth_date: Mapped[str] = mapped_column(Text)
+    birth_date: Mapped[date] = mapped_column(Date)
 
 
 class Forts(Base):
@@ -34,6 +34,7 @@ class Image(Base):
     filename: Mapped[str] = mapped_column(Text)
     content_type: Mapped[str] = mapped_column(Text)
     image_data: Mapped[bytes] = mapped_column(LargeBinary)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
 
 
@@ -53,3 +54,11 @@ class Sessions(Base):
 
     session: Mapped[str] = mapped_column(Text, primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
+
+
+class UserTours(Base):
+    __tablename__ = "user_tours"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"), nullable=False)
+    tour_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("tours.tour_id"), nullable=False)

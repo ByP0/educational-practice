@@ -22,8 +22,8 @@ async def add_tour(
     try:
         await add_tour_db(data=data, session=session, user_id=user)
         return Response200
-    except:
-        raise HTTPException(status_code=500, detail="Server Error")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Server Error {str(e)}")
 
 
 @router.get("/", response_model=list[ToursData])

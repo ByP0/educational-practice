@@ -113,6 +113,7 @@
   cursor: pointer;
   color: #4e4242;
   transition: color 0.5s;
+  text-decoration: none;
 }
 .btn-exit:hover {
   color: #000;

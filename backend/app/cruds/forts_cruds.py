@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, Result
+from sqlalchemy import select, Result, desc
 import base64
 from fastapi import HTTPException
 
@@ -40,30 +40,33 @@ async def get_one_fort(fort_id: int, session: AsyncSession) -> FortsData:
     stmt_forts = select(Forts).where(Forts.fort_id == fort_id)
     result_forts: Result = await session.execute(stmt_forts)
     fort = result_forts.scalar_one_or_none()
-
     if fort is None:
         raise HTTPException(status_code=404, detail="Fort not found")
-
-    stmt_images = select(Image).where(Image.fort_id == fort_id)
+    stmt_images = (
+        select(Image)
+        .where(Image.fort_id == fort_id)
+        .order_by(desc(Image.created_at))
+        .limit(1)
+    )
     result_images: Result = await session.execute(stmt_images)
-    images = result_images.scalars().all()
+    image = result_images.scalar_one_or_none()
 
-    image_data = [
-        {
+    image_data = None
+    if image is not None:
+        image_data = {
             "image_id": image.image_id,
             "filename": image.filename,
             "content_type": image.content_type,
-            "image_data": base64.b64encode(image.image_data.encode('utf-8')).decode('utf-8') if isinstance(image.image_data, str) else base64.b64encode(image.image_data).decode('utf-8'),
-        }
-        for image in images
-    ]
+            "image_data": base64.b64encode(image.image_data).decode('utf-8')
+        }       
 
     return FortsData(
         fort_id=fort.fort_id,
         fort_name=fort.fort_name,
         description=fort.description,
-        images=image_data,
+        images=[image_data] if image_data else []
     )
+
 
 async def add_fort_db(data: FortAdd, session: AsyncSession):
     try:
