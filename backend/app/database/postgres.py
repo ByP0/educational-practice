@@ -1,6 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+from fastapi import HTTPException
+import os
+
 from app.config import db_url
-from app.models.models import Base
+from app.models.models import Base, Forts, Image
+from app.database.data_forts.data_forts import forts_id_list, forts_name_list, forts_descriptions
 
 
 engine = create_async_engine(
