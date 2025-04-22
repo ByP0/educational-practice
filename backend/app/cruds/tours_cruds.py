@@ -1,8 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result, func
 from fastapi import HTTPException
+import base64
 
-from app.models.models import Tours, UserTours, Image
+from app.models.models import Tours, UserTours, Image, Forts
 from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 
@@ -28,15 +29,20 @@ async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]
         .join(Image, Tours.fort_id == Image.fort_id, isouter=True)
         .where(Tours.user_id == user_id)
         .order_by(Tours.tour_id)
-    )
-    
+    )   
     result: Result = await session.execute(stmt)
-    tours = result.scalars().all()   
+    tours = result.scalars().all()    
     if not tours:
         raise HTTPException(status_code=404, detail="Tours not found")
     
     tours_data = []   
     for tour in tours:
+        fort_stmt = (
+            select(Forts.fort_name)
+            .where(Forts.fort_id == tour.fort_id)
+        )        
+        fort_result: Result = await session.execute(fort_stmt)
+        fort_name = fort_result.scalar_one_or_none()
         last_image_stmt = (
             select(Image)
             .where(Image.fort_id == tour.fort_id)
@@ -48,11 +54,12 @@ async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]
         last_image = last_image_result.scalars().first()
         image_data = None
         if last_image:
+            encoded_image_data = base64.b64encode(last_image.image_data).decode('utf-8')
             image_data = {
                 "image_id": last_image.image_id,
                 "filename": last_image.filename,
                 "content_type": last_image.content_type,
-                "image_data": last_image.image_data.decode('utf-8')
+                "image_data": encoded_image_data
             }
 
         tours_data.append(ToursData(
@@ -61,11 +68,11 @@ async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]
             tour_date=tour.tour_date,
             number_of_seats=tour.number_of_seats,
             fort_id=tour.fort_id,
-            fort_name="",
+            fort_name=fort_name if fort_name else "",
             image=image_data
         ))
-
     return tours_data
+
 
 async def delete_tour_db(tour_id: int, session: AsyncSession):
     stmt = select(Tours).where(Tours.tour_id == tour_id)
