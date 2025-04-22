@@ -2,13 +2,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result, func
 from fastapi import HTTPException
 import base64
+from datetime import datetime
 
 from app.models.models import Tours, UserTours, Image, Forts
 from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 
 async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[ToursData]:
-    stmt = select(Tours).where(Tours.fort_id==fort_id)
+    current_time = datetime.now()
+    
+    stmt = select(Tours).where(Tours.fort_id==fort_id).where(Tours.tour_date >= current_time)
     result: Result = await session.execute(stmt)
     tours = result.scalars().all()
     if not tours:
@@ -24,10 +27,13 @@ async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[Tour
         for tour in tours]
 
 async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]:
+    current_time = datetime.now()
+
     stmt = (
         select(Tours)
         .join(Image, Tours.fort_id == Image.fort_id, isouter=True)
         .where(Tours.user_id == user_id)
+        .where(Tours.tour_date >= current_time)
         .order_by(Tours.tour_id)
     )   
     result: Result = await session.execute(stmt)
