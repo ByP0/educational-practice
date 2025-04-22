@@ -74,4 +74,4 @@ async def upload_forts(image_folder_path: str):
             
         except Exception as e:
             await session.rollback()
-            raise HTTPException(status_code=500, detail=str(e))
+            pass
