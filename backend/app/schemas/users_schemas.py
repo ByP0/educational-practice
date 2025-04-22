@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import Annotated
 from email_validator import validate_email
+from datetime import date
 
 
 class SingUpUser(BaseModel):
@@ -9,7 +10,7 @@ class SingUpUser(BaseModel):
     patronymic: Annotated[str, Field(title="Patronymic", examples=["Иванович"])]
     email: Annotated[str, Field(title="Email address", examples=["example@gmail.com"])]
     password: Annotated[str, Field(title="Password", examples=["password"])]
-    birth_date: Annotated[str, Field(title="Birth date", examples=["Ну что-то хз пока"])]
+    birth_date: Annotated[date, Field(title="Birth date", examples=["2025-04-22"])]
 
     @field_validator('email', mode='before')
     def check_email(cls, value):
@@ -49,4 +50,4 @@ class UserSchema(BaseModel):
     last_name: Annotated[str, Field(title="Last name", examples=["Иванов"])]
     patronymic: Annotated[str, Field(title="Patronymic", examples=["Иванович"])]
     email: Annotated[str, Field(title="Email address", examples=["example@gmail.com"])]
-    birth_date: Annotated[str, Field(title="Birth date", examples=["Ну что-то хз пока"])]
+    birth_date: Annotated[date, Field(title="Birth date", examples=["2025-04-22"])]
