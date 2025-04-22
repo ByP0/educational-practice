@@ -8,6 +8,7 @@ import { AuthorizeForm } from './pages/auth/auth.jsx'
  import { getUser } from '../api/get-user.jsx'
  import{ProtectedRoute}from '../components/protectedRoute.jsx'
 import { FortsPage } from './pages/forts-page/fort-page.jsx'
+import { ListTours } from './pages/list-tours/list-tours.jsx'
 
 function App() {
   const dispatch=useDispatch()
@@ -36,6 +37,7 @@ function App() {
       }/>
       <Route path='/auth' element={<AuthorizeForm/>}/>
       <Route path='/forts/:id' element={<FortsPage/>}/>
+      <Route path='/list-tours' element={<ListTours/>}/>
       </Routes>
     </div>
 

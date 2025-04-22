@@ -67,6 +67,7 @@ async def get_one_fort(fort_id: int, session: AsyncSession) -> FortsData:
         images=[image_data] if image_data else []
     )
 
+
 async def add_fort_db(data: FortAdd, session: AsyncSession):
     try:
         data_for_db = Forts(

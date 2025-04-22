@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../action/set-user';
  import { useNavigate } from 'react-router-dom';
  import { useState } from 'react';
+ import { useLocation } from 'react-router-dom';
+
 
 export const Header=()=>{
 
@@ -18,6 +20,7 @@ export const Header=()=>{
 
     const dispatch=useDispatch()
      const navigate=useNavigate()
+     const location = useLocation()
 
     const user = useSelector(selectUserName)
 
@@ -49,11 +52,23 @@ export const Header=()=>{
             <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
                        <button className="close-btn" onClick={() => setMenuOpen(false)}>&times;</button>
                        <nav className='nav-links'>
-                         <Link className='link-menu'to="/#">Главная</Link>
-                         <Link className='link-menu'to="/#">Экскурсии</Link>
-                         <Link className='link-menu'to="/#">Контакты</Link>
+                         <Link className='link-menu'to="/" onClick={()=>{
+                            if(location.pathname==='/'){
+                                setMenuOpen(false)
+                            }
+                         }}>Главная</Link>
+                         <Link className='link-menu'to="/list-tours" onClick={()=>{
+                            if(location.pathname==='/list-tours'){
+                                setMenuOpen(false)
+                            }
+                         }} >Экскурсии</Link>
+                         <Link className='link-menu'to="/#" onClick={()=>{
+                            if(location.pathname==='/#'){
+                                setMenuOpen(false)
+                            }
+                         }}>Контакты</Link>
                        </nav>
-                       <buttun className='btn-exit'>Выход<IoExitOutline /></buttun>
+                       <button className='btn-exit' onClick={handleLogout}>Выход<IoExitOutline /></button>
                      </div>
         </div>
     )
