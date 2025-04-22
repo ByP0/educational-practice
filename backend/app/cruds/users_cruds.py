@@ -49,7 +49,6 @@ async def get_user_by_email(email: str, session: AsyncSession):
     result: Result = await session.execute(stmt)
     return result.scalar_one_or_none() 
 
-
 async def get_user_by_session(user_session: str, session: AsyncSession):
     try:
         stmt = select(Sessions.user_id).where(Sessions.session == user_session)

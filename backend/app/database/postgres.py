@@ -1,5 +1,4 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from fastapi import HTTPException
 import os
 
 #from app.config import db_url

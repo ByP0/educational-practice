@@ -10,7 +10,7 @@ from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[ToursData]:
     current_time = datetime.now()
-    
+
     stmt = select(Tours).where(Tours.fort_id==fort_id).where(Tours.tour_date >= current_time)
     result: Result = await session.execute(stmt)
     tours = result.scalars().all()
@@ -78,7 +78,6 @@ async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]
             image=image_data
         ))
     return tours_data
-
 
 async def delete_tour_db(tour_id: int, session: AsyncSession):
     stmt = select(Tours).where(Tours.tour_id == tour_id)

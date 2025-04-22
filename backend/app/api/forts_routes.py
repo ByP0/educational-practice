@@ -43,7 +43,6 @@ async def add_fort(
     return Response200
     
 
-
 @router.post("/upload_image", response_model=Response200)
 async def upload_image(
     fort_id: Annotated[int, Query(title="Fort ID", example=1)],

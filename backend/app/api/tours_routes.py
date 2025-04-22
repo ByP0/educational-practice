@@ -25,6 +25,7 @@ async def add_tour(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Server Error {str(e)}")
     
+    
 @router.get("/my", response_model=list[ToursData])
 async def get_my_tours(
     user_session: Annotated[str, Header(title="User session", example="123e4567-e89b-12d3-a456-426614174000")],

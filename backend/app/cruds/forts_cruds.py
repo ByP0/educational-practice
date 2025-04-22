@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result, desc
-import base64
 from fastapi import HTTPException
+import base64
+
 
 from app.models.models import Forts, Image
 from app.schemas.forts_schemas import FortAdd, FortsData
