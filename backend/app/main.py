@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
         yield
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost",
