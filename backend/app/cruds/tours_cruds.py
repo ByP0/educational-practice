@@ -77,7 +77,12 @@ async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]
             fort_name=fort_name if fort_name else "",
             image=image_data
         ))
-    return tours_data
+    unique_tours = {}
+    for tour in tours_data:
+        unique_tours[tour.tour_id] = tour
+
+    return list(unique_tours.values())
+
 
 async def delete_tour_db(tour_id: int, session: AsyncSession):
     stmt = select(Tours).where(Tours.tour_id == tour_id)
