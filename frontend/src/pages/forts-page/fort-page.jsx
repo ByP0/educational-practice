@@ -106,7 +106,7 @@ export const FortsPage=()=>{
   })
 
 
-  const onSubmit=async(data)=>{
+  const onSubmited=async(data)=>{
     try {
       const formattedDate = format(new Date(data.date), 'yyyy-MM-dd');
       const dateWithTime = `${formattedDate} ${data.time}:00.000000`;
@@ -142,10 +142,12 @@ export const FortsPage=()=>{
  
   const [loading,setLoading]=useState(false)
 
-
+console.log('USE EFFECT CALL');
   useEffect(()=>{
     setLoading(true)
-      getForts(id).then((data)=>dispatch(setForts(data)))
+      getForts(id).then((data)=>{console.log(data)
+        dispatch(setForts(data))})
+      
       .finally(()=>setLoading(false))
   },[id,dispatch])
 
@@ -174,7 +176,7 @@ export const FortsPage=()=>{
                 {descriptionForts}
       </div>
         </div>
-        <form className="data-tours" onSubmit={handleSubmit(onSubmit)}>
+        <form className="data-tours" onSubmit={handleSubmit(onSubmited)}>
           <div>
             <p className="title-1" >Количество мест</p>
           <input className="int" min='1'type='number' name='seats' {...register('seats')}/>

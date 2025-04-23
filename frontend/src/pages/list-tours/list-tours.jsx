@@ -45,7 +45,7 @@ export const ListTours=()=>{
             </div>      
             <div className="card-list">
                <div>
-                {listTours.map((item)=>(
+                {listTours.map((item,tour_id)=>(
                     <CardList
                     fortName={item.fort_name}
                     tourId={item.tour_id}
@@ -53,7 +53,7 @@ export const ListTours=()=>{
                     meetingPlace={item.gathering_place}
                     date={item.tour_date}
                     img={`data:${item.image.content_type};base64,${item.image.image_data}`}
-                    id={'1'}
+                    key={tour_id}
                   />
                 ))}
                </div>

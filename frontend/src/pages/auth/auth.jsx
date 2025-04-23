@@ -3,6 +3,7 @@ import { Button } from "./componets/Button"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from 'react-hook-form'
 import { OnSubmit } from "../../../components/onSubmit.jsx";
+import { Link } from "react-router-dom";
 import * as yup from 'yup'
 import './auth.css'
 ;
@@ -51,7 +52,10 @@ import './auth.css'
                 <Input placeholder='Введите пароль...'name='password'{...register('password')}/>
                 {errors.password && <div>{errors.password.message}</div>}
                 </div>
-                <Button type="submit">Войти</Button>  
+                <div className="btn-group">
+                <Button type="submit" id="entry">Войти</Button>  
+                <Link to="/register" ><Button id="register">Регистрация</Button></Link>
+                </div>
             </form>
         </div>
     )
