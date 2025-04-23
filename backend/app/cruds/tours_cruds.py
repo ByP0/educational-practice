@@ -142,6 +142,13 @@ async def register_user_to_tour(user_id: int, tour_id: int, session: AsyncSessio
 
         if registered_count >= available_seats:
             raise HTTPException(status_code=400, detail="No available seats")
+        
+        stmt_check = select(UserTours).where(UserTours.tour_id == tour_id).where(UserTours.user_id == user_id)
+        result_check = await session.execute(stmt_check)
+        check_status = result_check.scalar_one_or_none()
+
+        if check_status:
+            raise HTTPException(status_code=409, detail="User already register this tour")
              
         data_for_db = UserTours(user_id=user_id, tour_id=tour_id)
         session.add(data_for_db)
