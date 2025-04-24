@@ -10,6 +10,7 @@ import { AuthorizeForm } from './pages/auth/auth.jsx'
 import { FortsPage } from './pages/forts-page/fort-page.jsx'
 import { ListTours } from './pages/list-tours/list-tours.jsx'
 import { RegisterForm } from './pages/register/register.jsx'
+import { EditTourPage } from './pages/egitTourPage/editTourPage.jsx'
 
 function App() {
   const dispatch=useDispatch()
@@ -40,6 +41,7 @@ function App() {
       <Route path='/register' element={<RegisterForm/>}/>
       <Route path='/forts/:id' element={<FortsPage/>}/>
       <Route path='/list-tours' element={<ListTours/>}/>
+      <Route path='/tour/:tourId/edit' element={<EditTourPage/>}/>
       </Routes>
     </div>
 

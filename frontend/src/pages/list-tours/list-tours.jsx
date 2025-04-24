@@ -27,9 +27,12 @@ export const ListTours=()=>{
               }
         })
         .then(res=>res.json())
-        .then((data)=>setListTours(data))
+        .then((data)=>{
+            setListTours(data)
+        })
+        
         .finally(()=>setLoading(false))
-    },[session])
+    },[session,dispatch])
 
     const handleRemoveTour=(id)=>{
          fetch(`http://localhost:8000/tours/delete?tour_id=${id}`,{
@@ -49,22 +52,8 @@ export const ListTours=()=>{
         });
     }
 
-    const handleEditTour=(id,data)=>{
-        fetch(`http://localhost:8000/tours/patch?tour_id=${id}`,{
-            method:'PATCH',
-            headers:{
-                'accept': 'application/json',
-                'user-session': session,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'gathering_place': data.gathering_place,
-                'tour_date': data.date,
-                'number_of_seats':data.number_of_seats, 
-                'fort_id':data.fort_id
-              })
-        })
-
+    const handleEditTour=(tour)=>{
+        navigate(`/tour/${tour.tour_id}/edit`,{state:{tour}})
     }
 
     const handleLogout=()=>{
@@ -105,7 +94,7 @@ export const ListTours=()=>{
                         img={`data:${item.image.content_type};base64,${item.image.image_data}`}
                         key={item.tour_id}
                         onDelete={()=>handleRemoveTour(item.tour_id)}
-                        onEdit={()=>handleEditTour(item.tour_id)}
+                        onEdit={()=>handleEditTour(item)}
                         />
                     ))
                     ) : (

@@ -10,10 +10,11 @@
 }
 
 .header-control {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  width: 100%;
+  height: 100px;
 }
 
 .label {
@@ -23,7 +24,11 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: flex;
+  justify-self: center;
+}
+.label.edit-page {
+  justify-self: start;
+  transform: translateX(700px);
 }
 .menu {
   display: flex;

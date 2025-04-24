@@ -1,8 +1,11 @@
 import './card-list.css'
 import { FaRegTrashCan } from "react-icons/fa6";
 import { LuPencil } from "react-icons/lu";
+import { useLocation } from 'react-router-dom';
 
 export const CardList = ({ fortName, tourId,numberOfSeats, meetingPlace, date, img, id,onDelete,onEdit}) => {
+  const location=useLocation()
+  const isEditPage = location.pathname.includes("/edit");
     return (
       <div className={`card-1 card-${id}`}>
     <img src={img} alt={fortName} className="card-image" />
@@ -27,10 +30,14 @@ export const CardList = ({ fortName, tourId,numberOfSeats, meetingPlace, date, i
         </div>
       </div>
     </div>
-        <div>
-          <button className='btn-delete' onClick={onDelete}><FaRegTrashCan/></button>
-          <button className='btn-edit' onClick={onEdit}><LuPencil/></button>
-        </div>
+    <div>
+      {!isEditPage && (
+        <>
+          <button onClick={onDelete} className='btn-delete'><FaRegTrashCan/></button>
+          <button onClick={onEdit} className='btn-edit'><LuPencil/></button>
+        </>
+      )}
+    </div>
       </div>
     );
   };

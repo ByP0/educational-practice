@@ -10,6 +10,7 @@ import { setUser } from '../../action/set-user';
  import { useNavigate } from 'react-router-dom';
  import { useState } from 'react';
  import { useLocation } from 'react-router-dom';
+ 
 
 
 export const Header=()=>{
@@ -17,10 +18,11 @@ export const Header=()=>{
     const [menuOpen,setMenuOpen]=useState(false)
 
     
-
+    
     const dispatch=useDispatch()
      const navigate=useNavigate()
      const location = useLocation()
+     const isEditPage = location.pathname.includes("/edit");
 
     const user = useSelector(selectUserName)
 
@@ -40,13 +42,17 @@ export const Header=()=>{
                     </button>
                 <IoIosSearch  className='search'/>
                 </div>
-                <p className="label">FortsTour</p>
+                <p className={`label ${isEditPage?'edit-page':''}`}>FortsTour</p>
+                {!isEditPage&&(
+                <>
                 {user===null?(
                     <Link className='link-entry' to='/auth'><button className='btn-entrys'>Вход</button></Link>
                 ):(
                     <>
                     <Link className='link-entry' to='/auth'><button className='btn-entrys' onClick={handleLogout}>Выход</button></Link>
                     </>
+                )}
+                </>
                 )}
             </div>
             <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
