@@ -11,78 +11,103 @@ from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 async def get_tours_by_fort_id(fort_id: int, session: AsyncSession) -> list[ToursData]:
     current_time = datetime.now()
 
-    stmt = select(Tours).where(Tours.fort_id==fort_id).where(Tours.tour_date >= current_time)
-    result: Result = await session.execute(stmt)
-    tours = result.scalars().all()
-    if not tours:
-        raise HTTPException(status_code=404, detail="Tours not found")
-    
-    return [ToursData(
-        tour_id=tour.tour_id,
-        gathering_place=tour.gathering_place,
-        tour_date=tour.tour_date,
-        number_of_seats=tour.number_of_seats,
-        fort_id=tour.fort_id
-        )
-        for tour in tours]
-
-async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]:
-    current_time = datetime.now()
-
     stmt = (
-        select(Tours)
-        .join(Image, Tours.fort_id == Image.fort_id, isouter=True)
-        .where(Tours.user_id == user_id)
+        select(
+            Tours,
+            Forts.fort_name,
+            Image.image_id,
+            Image.filename,
+            Image.content_type,
+            Image.image_data
+        )
+        .join(Forts, Tours.fort_id == Forts.fort_id)
+        .outerjoin(Image, Tours.fort_id == Image.fort_id)
         .where(Tours.tour_date >= current_time)
         .order_by(Tours.tour_id)
-    )   
+    )
+
     result: Result = await session.execute(stmt)
-    tours = result.scalars().all()    
+    tours = result.all()
+
     if not tours:
         raise HTTPException(status_code=404, detail="Tours not found")
-    
-    tours_data = []   
-    for tour in tours:
-        fort_stmt = (
-            select(Forts.fort_name)
-            .where(Forts.fort_id == tour.fort_id)
-        )        
-        fort_result: Result = await session.execute(fort_stmt)
-        fort_name = fort_result.scalar_one_or_none()
-        last_image_stmt = (
-            select(Image)
-            .where(Image.fort_id == tour.fort_id)
-            .order_by(Image.created_at.desc())
-            .limit(1)
-        )
-        
-        last_image_result: Result = await session.execute(last_image_stmt)
-        last_image = last_image_result.scalars().first()
-        image_data = None
-        if last_image:
-            encoded_image_data = base64.b64encode(last_image.image_data).decode('utf-8')
-            image_data = {
-                "image_id": last_image.image_id,
-                "filename": last_image.filename,
-                "content_type": last_image.content_type,
-                "image_data": encoded_image_data
-            }
+
+    tours_data = []
+    for tour, fort_name, image_id, filename, content_type, image_data in tours:
+        encoded_image_data = None
+        if image_data:
+            encoded_image_data = base64.b64encode(image_data).decode('utf-8')
 
         tours_data.append(ToursData(
             tour_id=tour.tour_id,
             gathering_place=tour.gathering_place,
             tour_date=tour.tour_date,
             number_of_seats=tour.number_of_seats,
+            cost=tour.cost,
             fort_id=tour.fort_id,
             fort_name=fort_name if fort_name else "",
-            image=image_data
+            image={
+                "image_id": image_id,
+                "filename": filename,
+                "content_type": content_type,
+                "image_data": encoded_image_data
+            } if image_data else None
         ))
-    unique_tours = {}
-    for tour in tours_data:
-        unique_tours[tour.tour_id] = tour
+
+    unique_tours = {tour.tour_id: tour for tour in tours_data}
 
     return list(unique_tours.values())
 
+async def get_user_tours(user_id: int, session: AsyncSession) -> list[ToursData]:
+    current_time = datetime.now()
+
+    stmt = (
+        select(
+            Tours,
+            Forts.fort_name,
+            Image.image_id,
+            Image.filename,
+            Image.content_type,
+            Image.image_data
+        )
+        .join(Forts, Tours.fort_id == Forts.fort_id)
+        .outerjoin(Image, Tours.fort_id == Image.fort_id)
+        .where(Tours.user_id == user_id)
+        .where(Tours.tour_date >= current_time)
+        .order_by(Tours.tour_id)
+    )
+
+    result: Result = await session.execute(stmt)
+    tours = result.all()
+
+    if not tours:
+        raise HTTPException(status_code=404, detail="Tours not found")
+
+    tours_data = []
+    for tour, fort_name, image_id, filename, content_type, image_data in tours:
+        encoded_image_data = None
+        if image_data:
+            encoded_image_data = base64.b64encode(image_data).decode('utf-8')
+
+        tours_data.append(ToursData(
+            tour_id=tour.tour_id,
+            gathering_place=tour.gathering_place,
+            tour_date=tour.tour_date,
+            number_of_seats=tour.number_of_seats,
+            cost=tour.cost,
+            fort_id=tour.fort_id,
+            fort_name=fort_name if fort_name else "",
+            image={
+                "image_id": image_id,
+                "filename": filename,
+                "content_type": content_type,
+                "image_data": encoded_image_data
+            } if image_data else None
+        ))
+
+    unique_tours = {tour.tour_id: tour for tour in tours_data}
+
+    return list(unique_tours.values())
 
 async def delete_tour_db(tour_id: int, session: AsyncSession):
     stmt = select(Tours).where(Tours.tour_id == tour_id)
@@ -100,6 +125,7 @@ async def add_tour_db(data: TourAdd, session: AsyncSession, user_id: int):
         gathering_place=data.gathering_place,
         tour_date=data.tour_date,
         number_of_seats=data.number_of_seats,
+        cost=data.cost,
         fort_id=data.fort_id,
         user_id=user_id,
     )
@@ -124,6 +150,8 @@ async def patch_tour_tb(tour_id: int, data: TourPatch, session: AsyncSession):
         tour.tour_date = data.tour_date
     if data.number_of_seats is not None:
         tour.number_of_seats = data.number_of_seats
+    if data.cost is not None:
+        tour.cost = data.cost
     
     await session.commit()
 
@@ -159,3 +187,51 @@ async def register_user_to_tour(user_id: int, tour_id: int, session: AsyncSessio
         raise http_exc
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+async def get_user_register_tours(user_id: int, session: AsyncSession) -> list[ToursData]:
+    current_time = datetime.now()
+
+    stmt = (
+        select(
+            Tours,
+            Forts.fort_name,
+            Image.image_id,
+            Image.filename,
+            Image.content_type,
+            Image.image_data
+        )
+        .join(UserTours, UserTours.tour_id == Tours.tour_id)
+        .join(Forts, Tours.fort_id == Forts.fort_id)
+        .outerjoin(Image, Image.fort_id == Tours.fort_id)
+        .where(UserTours.user_id == user_id)
+        .where(Tours.tour_date >= current_time)
+        .order_by(Tours.tour_id)
+    )
+
+    result: Result = await session.execute(stmt)
+    tour_rows = result.all()
+
+    if not tour_rows:
+        raise HTTPException(status_code=404, detail="Tours not found")
+
+    unique_tours = {}
+
+    for tour, fort_name, image_id, filename, content_type, image_data in tour_rows:
+        encoded_image_data = base64.b64encode(image_data).decode('utf-8') if image_data else None
+        unique_tours.setdefault(tour.tour_id, ToursData(
+            tour_id=tour.tour_id,
+            gathering_place=tour.gathering_place,
+            tour_date=tour.tour_date,
+            number_of_seats=tour.number_of_seats,
+            cost=tour.cost,
+            fort_id=tour.fort_id,
+            fort_name=fort_name or "",
+            image={
+                "image_id": image_id,
+                "filename": filename,
+                "content_type": content_type,
+                "image_data": encoded_image_data
+            } if image_data else None
+        ))
+
+    return list(unique_tours.values())

@@ -9,7 +9,7 @@ from app.database.postgres import upload_forts, create_tables
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await create_tables()
+    #await create_tables()
     await upload_forts("app/database/data_forts")
     yield
 

@@ -7,7 +7,7 @@ from app.models.models import Users, Sessions
 from app.schemas.users_schemas import SingUpUser, UserSchema
 from app.services.users_services import hash_password
 
-async def add_session(user_id: int, session: AsyncSession):
+async def add_session(user_id: int, session: AsyncSession) -> str:
     user_session = str(uuid.uuid4())
     data_for_db = Sessions(session=user_session, user_id=user_id)
     session.add(data_for_db)
@@ -15,7 +15,7 @@ async def add_session(user_id: int, session: AsyncSession):
     await session.refresh(data_for_db)
     return user_session
 
-async def check_session(user_session: str, session: AsyncSession):
+async def check_session(user_session: str, session: AsyncSession) -> int:
     try:
         stmt = select(Sessions).where(Sessions.session == user_session)
         result: Result = await session.execute(stmt)
@@ -28,7 +28,7 @@ async def check_session(user_session: str, session: AsyncSession):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-async def register_user(data: SingUpUser, session: AsyncSession):
+async def register_user(data: SingUpUser, session: AsyncSession) -> int:
     try:
         data_for_db = Users(first_name=data.first_name,
                         last_name=data.last_name, 
@@ -49,7 +49,7 @@ async def get_user_by_email(email: str, session: AsyncSession):
     result: Result = await session.execute(stmt)
     return result.scalar_one_or_none() 
 
-async def get_user_by_session(user_session: str, session: AsyncSession):
+async def get_user_by_session(user_session: str, session: AsyncSession) -> UserSchema:
     try:
         stmt = select(Sessions.user_id).where(Sessions.session == user_session)
         session_result: Result = await session.execute(stmt)
