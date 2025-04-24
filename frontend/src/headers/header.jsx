@@ -42,10 +42,10 @@ export const Header=()=>{
                 </div>
                 <p className="label">FortsTour</p>
                 {user===null?(
-                    <Link className='link-entry' to='/auth'><button className='btn-entry'>Вход</button></Link>
+                    <Link className='link-entry' to='/auth'><button className='btn-entrys'>Вход</button></Link>
                 ):(
                     <>
-                    <Link className='link-entry' to='/auth'><button className='btn-entry' onClick={handleLogout}>Выход</button></Link>
+                    <Link className='link-entry' to='/auth'><button className='btn-entrys' onClick={handleLogout}>Выход</button></Link>
                     </>
                 )}
             </div>
@@ -68,7 +68,7 @@ export const Header=()=>{
                             }
                          }}>Контакты</Link>
                        </nav>
-                       <button className='btn-exit' onClick={handleLogout}>Выход<IoExitOutline /></button>
+                       <button className='btn-exit' onClick={handleLogout}>Выход<IoExitOutline />{user}</button>
                      </div>
         </div>
     )

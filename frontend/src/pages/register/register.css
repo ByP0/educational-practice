@@ -5,12 +5,35 @@
   align-items: center;
   border: 1px solid #e9e9e9;
   position: absolute;
-  top: 20%;
+  top: 12%;
   left: 30%;
-  padding-bottom: 150px;
   border-radius: 20px;
   width: 615px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
   background-color: #e9e9e9;
-  padding-bottom: 400px;
+  padding-bottom: 100px;
+}
+.btn-regist {
+  transform: translateY(50px);
+}
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #f2e4ca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 7px solid #ededed;
+  border-top: 7px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }

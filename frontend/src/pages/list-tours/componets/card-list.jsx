@@ -1,19 +1,35 @@
 import './card-list.css'
+import { FaRegTrashCan } from "react-icons/fa6";
+import { LuPencil } from "react-icons/lu";
 
-export const CardList = ({ fortName, tourId,numberOfSeats, meetingPlace, date, img, id }) => {
+export const CardList = ({ fortName, tourId,numberOfSeats, meetingPlace, date, img, id,onDelete,onEdit}) => {
     return (
-      <div className={`card-${id} card-1`}>
-        <img src={img} alt={fortName} className="card-image" />
-        <div className="card-content">
-          <h2 className="fort-name">{fortName}</h2>
-          <div className="info-row-1">
-            <div>Количество мест: <br />{numberOfSeats}</div>
-          </div>
-          <div className="info-row-2">
-            <div>Номер экскурсии <br/>{tourId}</div>
-            <div>Место сбора: <br />{meetingPlace}</div>
-            <div>Дата экскурсии: <br />{date}</div>
-          </div>
+      <div className={`card-1 card-${id}`}>
+    <img src={img} alt={fortName} className="card-image" />
+    <div className="card-content">
+      <h2 className="fort-name">{fortName}</h2>
+      <div className="card-info-grid">
+        <div>
+          <span className="label-1">Количество мест:</span>
+          <span>{numberOfSeats}</span>
+        </div>
+        <div>
+          <span className="label-1">Дата экскурсии:</span>
+          <span>{date}</span>
+        </div>
+        <div>
+          <span className="label-1">Номер экскурсии:</span>
+          <span>{tourId}</span>
+        </div>
+        <div>
+          <span className="label-1">Место сбора:</span>
+          <span>{meetingPlace}</span>
+        </div>
+      </div>
+    </div>
+        <div>
+          <button className='btn-delete' onClick={onDelete}><FaRegTrashCan/></button>
+          <button className='btn-edit' onClick={onEdit}><LuPencil/></button>
         </div>
       </div>
     );
