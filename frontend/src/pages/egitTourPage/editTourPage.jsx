@@ -65,7 +65,7 @@ export const EditTourPage=()=>{
         }
         if (data.place) requestData.gathering_place = data.place;
 
-        const response = await fetch(`http://localhost:8080/tours/patch?tour_id=${id}`, {
+        const response = await fetch(`http://localhost:8000/tours/patch?tour_id=${id}`, {
             method: 'PATCH',
             headers: {
                 'accept': 'application/json',
@@ -77,10 +77,8 @@ export const EditTourPage=()=>{
 
         const result = await response.json();
         console.log('Success:', result);
-        // Дополнительная обработка успешного ответа
     } catch (error) {
         console.error('Error:', error);
-        // Обработка ошибки
     }
    }
 
