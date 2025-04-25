@@ -12,6 +12,6 @@ RUN npm install
 
 RUN npm install vite-plugin-compression --save-dev
 
-EXPOSE 3000
+EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
