@@ -4,8 +4,10 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../../action/set-user';
 import './list-tours.css'
 import { useNavigate,Link} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { IoExitOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
+
 
 export const ListTours=()=>{
 
@@ -16,6 +18,7 @@ export const ListTours=()=>{
 
     const dispatch=useDispatch()
     const navigate=useNavigate()
+    const location = useLocation()
     console.log(session);
 
     useEffect(()=>{
@@ -61,6 +64,18 @@ export const ListTours=()=>{
         dispatch(setUser(null))
         navigate('/auth',{replace:true}) 
       }
+
+      useEffect(()=>{
+        if (location.state?.updatedTour) {
+            setListTours(prev =>
+              prev.map(tour =>
+                tour.tour_id === location.state.updatedTour.tour_id
+                  ? { ...tour, ...location.state.updatedTour }
+                  : tour
+              )
+            );
+          }
+      },[location.state])
 
       if (loading) {
         return (

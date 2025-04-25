@@ -5,6 +5,8 @@ import * as yup from 'yup'
 import { useForm } from "react-hook-form"
 import { Header } from "../../headers/header"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useNavigate } from "react-router-dom"
+import { format } from 'date-fns'
 import './editTourPage.css'
 
 
@@ -50,20 +52,15 @@ export const EditTourPage=()=>{
 
    const{state}=useLocation()
    const tour = state?.tour
+   const navigate = useNavigate()
 
    const {tourId}=useParams()
 
    const onSubmit=async(id,data)=>{
     try {
-        const requestData = {};
-        
-        if (data.seats) requestData.number_of_seats = data.seats;
-        if (data.date || data.time) {
-            requestData.tour_date = data.date 
-                ? `${data.date}T${data.time || '00:00:00'}`
-                : `${new Date().toISOString().split('T')[0]}T${data.time}`;
-        }
-        if (data.place) requestData.gathering_place = data.place;
+        console.log(data);
+        const formattedDate = format(new Date(data.date), 'yyyy-MM-dd');
+        const dateWithTime = `${formattedDate} ${data.time}:00.000000`;
 
         const response = await fetch(`http://localhost:8000/tours/patch?tour_id=${id}`, {
             method: 'PATCH',
@@ -72,17 +69,20 @@ export const EditTourPage=()=>{
                 'user-session': session,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(requestData)
+            body: JSON.stringify({
+                'gathering_place': data.place,
+                'number_of_seats': data.seats,
+                'tour_date': dateWithTime
+            })
         });
 
         const result = await response.json();
+        navigate('/list-tours',{state:{updateTour:result}})
         console.log('Success:', result);
     } catch (error) {
         console.error('Error:', error);
     }
    }
-
- 
 
     return(
         <div>
