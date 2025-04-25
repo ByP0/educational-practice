@@ -10,7 +10,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-<div id="footer" align="center" style="border-radius: 6px;">
+<div id="footer" align="center" style="border-radius: 50px;">
     <a href="https://t.me/yaarikz">
         <img src="https://cdn4.cdn-telegram.org/file/S595bsS8j_f-kb40DiEl7X8UF2Br515JNjPuCJAqoUHkOE0SB7pQr8oI4trGTJZYFcESdOs0kuhoxt2NijLFR6cNH618c58iRO4mlEqUMM1JzDcBvWz9Lk7TbAaCcIM4cTTm7AOi5vIPiyfQQ7KX0OK2R9PIy3hUc6uwk3WRS_ASa7flpDf3yQ2XjVLkpL9W83oV9iaosUMqOVC_soRChThne21kVQzkcQZj4iLYbzGKZu2jdSDmnkor41LNjW0XE-8r7ej6cPwXSJpHbp7_OnZv7VUAGptOqHomF_fjquwxKhg-IqDWILbcxTc12Q448XSospOM606sP6dU961A_w.jpg" style="height: 100px;" alt="yaarikz on telegram"/>
     </a>
