@@ -56,7 +56,6 @@ export const FortsPage=()=>{
     const file = e.target.files[0];
     if (!file) return;
 
-    // Проверка типа файла
     if (!file.type.match('image.*')) {
       alert('Пожалуйста, выберите файл изображения');
       return;
