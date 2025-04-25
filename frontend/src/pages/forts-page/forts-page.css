@@ -12,11 +12,11 @@ body {
 }
 
 .header-forts-container {
-  background: #f2e4ca; /* Бежевый контейнер */
+  background: #f2e4ca;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 32px; /* Отступ сверху для header */
+  padding-top: 32px;
 }
 
 .header-forts {
