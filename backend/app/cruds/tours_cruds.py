@@ -142,8 +142,6 @@ async def patch_tour_tb(tour_id: int, data: TourPatch, session: AsyncSession):
     if tour is None:
         raise HTTPException(status_code=404, detail=f"Tour with id {tour_id} not found.")
 
-    if data.fort_id is not None:
-        tour.fort_id = data.fort_id
     if data.gathering_place is not None:
         tour.gathering_place = data.gathering_place
     if data.tour_date is not None:

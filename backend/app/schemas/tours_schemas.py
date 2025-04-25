@@ -32,4 +32,3 @@ class TourPatch(BaseModel):
     tour_date: Annotated[Optional[datetime], Field(title="Tour date", examples=["2024-12-07 03:21:37.273427"], default=None)]
     number_of_seats: Annotated[Optional[int], Field(title="Number of seats", examples=[20], default=None)]
     cost: Annotated[Optional[int], Field(title="Cost tour", examples=[200], default=200)]
-    fort_id: Annotated[Optional[int], Field(title="Fort ID", examples=[5], default=None)]
