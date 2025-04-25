@@ -26,4 +26,4 @@ echo "Applying migrations..."
 alembic upgrade head
 
 echo "Run app with uvicorn..."
-uvicorn app.main:app --host 0.0.0.0 --port 80
+uvicorn app.main:app --host 0.0.0.0 --port 8000
