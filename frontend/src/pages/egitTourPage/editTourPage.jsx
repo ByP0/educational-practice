@@ -60,7 +60,7 @@ export const EditTourPage=()=>{
     try {
         console.log(data);
         const formattedDate = format(new Date(data.date), 'yyyy-MM-dd');
-        const dateWithTime = `${formattedDate} ${data.time}:00.000000`;
+        const dateWithTime = `${formattedDate}+${' '}${data.time}:00.000000`;
 
         const response = await fetch(`http://localhost:8000/tours/patch?tour_id=${id}`, {
             method: 'PATCH',

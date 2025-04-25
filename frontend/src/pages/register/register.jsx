@@ -130,7 +130,7 @@ export const RegisterForm=()=>{
                     </div>
                 <div>
                     <p>Пароль</p>
-                    <Input {...register('password')}name='password'type='password'/>
+                    <Input {...register('password')}name='password' type='password'/>
                     {errors.password&&<div>{errors.password.message}</div>}
                     </div>
                 <div>

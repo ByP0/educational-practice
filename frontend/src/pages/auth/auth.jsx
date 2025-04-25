@@ -49,7 +49,7 @@ import './auth.css'
                 </div>
                 <div>
                     <p>Пароль</p>
-                <Input placeholder='Введите пароль...'name='password'{...register('password')}/>
+                <Input placeholder='Введите пароль...'name='password' type='password'{...register('password')}/>
                 {errors.password && <div>{errors.password.message}</div>}
                 </div>
                 <div className="btn-group">

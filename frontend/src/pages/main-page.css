@@ -9,8 +9,16 @@
   justify-content: center;
   position: relative;
   background-color: #fff;
+  overflow: hidden;
+}
+.img-transition {
+  transition: opacity 0.5s;
+  opacity: 1;
 }
 
+.img-transition.fade {
+  opacity: 0;
+}
 .arrow {
   background: none;
   border: none;
