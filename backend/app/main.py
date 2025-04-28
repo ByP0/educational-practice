@@ -2,14 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from app.api.forts_routes import router as forts_router
-from app.api.users_routers import router as users_router
-from app.api.tours_routes import router as tours_router
-from app.database.postgres import upload_forts, create_tables
+from app.api.main import api_router
+from app.database.postgres import upload_forts
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    #await create_tables()
     await upload_forts("app/database/data_forts")
     yield
 
@@ -26,6 +23,4 @@ app.add_middleware(
 )
 
 
-app.include_router(forts_router)
-app.include_router(users_router)
-app.include_router(tours_router)
+app.include_router(api_router)

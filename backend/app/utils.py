@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import bcrypt
 
 
@@ -7,7 +8,9 @@ def hash_password(password: str) -> bytes:
     return bcrypt.hashpw(pwd_bytes, salt)
 
 def validate_password(password: str, hashed_password: bytes) -> bool:
-    return bcrypt.checkpw(
+    isValid = bcrypt.checkpw(
         password.encode(),
         hashed_password=hashed_password,
     )
+    if not isValid:
+        raise HTTPException(status_code=401, detail="Invalid password.")
