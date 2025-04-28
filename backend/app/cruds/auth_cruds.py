@@ -1,9 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, Result
 from fastapi import HTTPException
-import uuid
 
-from app.schemas.auth_schemas import RegisterUser, LoginUser
+from app.schemas.auth_schemas import RegisterUser
 from app.models.models import Users
 from app.utils import hash_password
 
@@ -25,6 +24,14 @@ async def register_user_to_db(data: RegisterUser, session: AsyncSession) -> int:
         raise HTTPException(status_code=400, detail="The email address is already associated with another account.")
     
 async def get_user_by_email(email: str, session: AsyncSession):
-    stmt = select(Users).where(Users.email == email)
-    result: Result = await session.execute(stmt)
-    return result.scalar_one_or_none() 
+    try:
+        stmt = select(Users).where(Users.email == email)
+        result: Result = await session.execute(stmt)
+        user = result.scalar_one_or_none()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found.")
+        return user
+    except HTTPException as http_exc:
+        raise http_exc
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

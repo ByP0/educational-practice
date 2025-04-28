@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Header
+from fastapi import APIRouter, Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 
@@ -37,8 +37,6 @@ async def login_user(
     session: AsyncSession = Depends(get_session),
 ):
     user = await get_user_by_email(email=data.email, session=session)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found.")
     validate_password(data.password, user.password.encode('utf-8'))
     payload = {
         "sub": user.user_id,

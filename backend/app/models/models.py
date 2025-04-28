@@ -48,18 +48,3 @@ class Tours(Base):
     cost: Mapped[int] = mapped_column(Integer, default=200)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
-
-
-class Sessions(Base):
-    __tablename__ = "sessions"
-
-    session: Mapped[str] = mapped_column(Text, primary_key=True)
-    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
-
-
-class UserTours(Base):
-    __tablename__ = "user_tours"
-
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
-    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
-    tour_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("tours.tour_id"))

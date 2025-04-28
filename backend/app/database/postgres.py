@@ -5,7 +5,6 @@ from app.config import db_url
 from app.models.models import Base, Forts, Image
 from app.database.data_forts.data_forts import forts_id_list, forts_name_list, forts_descriptions
 
-#db_url = "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
 
 engine = create_async_engine(
     url=str(db_url),

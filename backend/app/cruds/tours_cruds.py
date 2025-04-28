@@ -4,7 +4,7 @@ from fastapi import HTTPException
 import base64
 from datetime import datetime
 
-from app.models.models import Tours, UserTours, Image, Forts
+from app.models.models import Tours, Image, Forts
 from app.schemas.tours_schemas import ToursData, TourAdd, TourPatch
 
 
