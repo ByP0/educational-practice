@@ -79,3 +79,8 @@ def set_token_pair(data: dict) -> dict[str, str]:
         "access_token": generate_access_jwt(data=data),
         "refresh_token": generate_refresh_jwt(data=data)
     }
+
+def get_token_data(request: Request) -> dict:
+    headers = request.headers
+    token_list = headers.get("authorization").split()
+    return decode_access_jwt(token_list[1])

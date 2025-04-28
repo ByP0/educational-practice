@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, field_validator
-from fastapi import HTTPException
 from typing import Annotated
 from datetime import date
 from email_validator import validate_email
@@ -21,9 +20,9 @@ class RegisterUser(BaseModel):
             try:
                 validated_email = validate_email(value)
                 if validated_email is None:
-                    raise HTTPException(status_code=422, detail="Invalid email.")
+                    raise ValueError(status_code=422, detail="Invalid email.")
             except:
-                raise HTTPException(status_code=422, detail="Invalid email.")
+                raise ValueError(status_code=422, detail="Invalid email.")
 
         return value
     
@@ -38,9 +37,9 @@ class LoginUser(BaseModel):
             try:
                 validated_email = validate_email(value)
                 if validated_email is None:
-                    raise HTTPException(status_code=422, detail="Invalid email.")
+                    raise ValueError(status_code=422, detail="Invalid email.")
             except:
-                raise HTTPException(status_code=422, detail="Invalid email.")
+                raise ValueError(status_code=422, detail="Invalid email.")
 
         return value
 
