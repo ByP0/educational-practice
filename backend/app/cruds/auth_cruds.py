@@ -20,8 +20,8 @@ async def register_user_to_db(data: RegisterUser, session: AsyncSession) -> int:
         await session.commit()
         await session.refresh(data_for_db)
         return int(data_for_db.user_id)
-    except:
-        raise HTTPException(status_code=400, detail="The email address is already associated with another account.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"The email address is already associated with another account.{e}")
     
 async def get_user_by_email(email: str, session: AsyncSession):
     try:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 from pydantic import Field
@@ -21,7 +21,7 @@ async def get_user(
     session: AsyncSession = Depends(get_session)
 ):
     token_data = get_token_data(request=request)
-    user = await get_user_by_id(user_id=token_data.get("sub"), session=session)
+    user = await get_user_by_id(user_id=token_data.get("user_id"), session=session)
     return user
 
 
@@ -32,7 +32,7 @@ async def change_user(
     session: AsyncSession = Depends(get_session),
 ):
     token_data = get_token_data(request=request)
-    await change_user_db(user_id=token_data.get("sub"), data=data, session=session)
+    await change_user_db(user_id=token_data.get("user_id"), data=data, session=session)
     return Response200
 
 
@@ -43,9 +43,9 @@ async def change_user_password(
     session: AsyncSession = Depends(get_session)
 ):
     token_data = get_token_data(request=request)
-    user = await get_user_by_id(user_id=token_data.get("sub"), session=session)
+    user = await get_user_by_id(user_id=token_data.get("user_id"), session=session)
     validate_password(data.password, user.password.encode('utf-8'))
-    await update_password(user_id=token_data.get("sub"), new_password=data.new_password, session=session)
+    await update_password(user_id=token_data.get("user_id"), new_password=data.new_password, session=session)
     return Response200
 
 
@@ -56,7 +56,7 @@ async def delete_user(
     session: AsyncSession = Depends(get_session)
 ):
     token_data = get_token_data(request=request)
-    user = await get_user_by_id(user_id=token_data.get("sub"), session=session)
+    user = await get_user_by_id(user_id=token_data.get("user_id"), session=session)
     validate_password(password, user.password.encode('utf-8'))
-    await delete_user_db(user_id=token_data.get("sub"), session=session)
+    await delete_user_db(user_id=token_data.get("user_id"), session=session)
     return Response200

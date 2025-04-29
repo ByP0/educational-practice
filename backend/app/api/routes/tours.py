@@ -19,7 +19,7 @@ async def add_tour(
     session: AsyncSession = Depends(get_session),
 ):
     token_data = get_token_data(request=request)
-    await add_tour_db(data=data, session=session, user_id=token_data.get("sub"))
+    await add_tour_db(data=data, session=session, user_id=token_data.get("user_id"))
     return Response200
     
     
@@ -29,7 +29,7 @@ async def get_my_tours(
     session: AsyncSession = Depends(get_session),
 ):
     token_data = get_token_data(request=request)
-    tours = await get_user_tours(user_id=token_data.get("sub"), session=session)
+    tours = await get_user_tours(user_id=token_data.get("user_id"), session=session)
     return tours
 
 

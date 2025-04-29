@@ -21,7 +21,7 @@ async def register_user(
 ):
     user_id = await register_user_to_db(data=data, session=session)
     payload = {
-        "sub": user_id,
+        "user_id": user_id,
         "email": data.email,
     }
     jwt_tokens = set_token_pair(payload)
@@ -39,7 +39,7 @@ async def login_user(
     user = await get_user_by_email(email=data.email, session=session)
     validate_password(data.password, user.password.encode('utf-8'))
     payload = {
-        "sub": user.user_id,
+        "user_id": user.user_id,
         "email": user.email,
     }
     jwt_tokens = set_token_pair(payload)

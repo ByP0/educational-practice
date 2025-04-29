@@ -1,9 +1,14 @@
 from fastapi import Request, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import jwt
+from jose import jwt
 from datetime import datetime, timedelta, timezone
+import logging
 
 from app.config import secret_key, algorithm, expire_minutes, expire_days
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class JWTBearer(HTTPBearer):
@@ -26,8 +31,12 @@ class JWTBearer(HTTPBearer):
 
         try:
             payload = decode_access_jwt(jwt_token)
-        except:
+            if payload is None:
+                logger.warning("Token is invalid or expired.")
+        except Exception as e:
+            logger.error(f"Error decoding JWT: {e}")
             payload = None
+
         if payload:
             isTokenValid = True
         
@@ -40,7 +49,7 @@ def generate_access_jwt(data: dict) -> str:
     payload = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=int(expire_minutes))
     payload.update({"exp": expire, "type": "access"})
-    return jwt.encode(payload=payload, key=secret_key, algorithm=algorithm)
+    return jwt.encode(payload, secret_key, algorithm=algorithm)
 
 def generate_refresh_jwt(data: dict) -> str:
     payload = {
@@ -48,23 +57,26 @@ def generate_refresh_jwt(data: dict) -> str:
         "type": "refresh",
         "exp": datetime.now(timezone.utc) + timedelta(days=int(expire_days)),
     }
-    return jwt.encode(payload=payload, key=secret_key, algorithm=algorithm)
+    return jwt.encode(payload, secret_key, algorithm=algorithm)
 
 def decode_access_jwt(token: str) -> dict | None:
     try:
         decoded_token = jwt.decode(token, key=secret_key, algorithms=[algorithm])
         data_now = datetime.now(timezone.utc)
         if decoded_token.get("exp") <= int(data_now.timestamp()):
+            logger.warning("Token has expired.")
             return None
         if decoded_token.get("type") != "access":
+            logger.warning("Token type is not access.")
             return None
         return decoded_token
-    except:
+    except Exception as e:
+        logger.error(f"Error decoding token: {e}")
         return None
-    
+
 def decode_refresh_jwt(token: str) -> dict | None:
     try:
-        decoded_token = jwt.decode(token, key=secret_key, algorithms=[algorithm])
+        decoded_token = jwt.decode(token, secret_key, algorithms=[algorithm])
         data_now = datetime.now(timezone.utc)
         if decoded_token.get("exp") <= int(data_now.timestamp()):
             return None
