@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, Result, func
+from sqlalchemy import select, Result
 from fastapi import HTTPException
 import base64
 from datetime import datetime

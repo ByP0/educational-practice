@@ -1,7 +1,9 @@
 from sqlalchemy import BigInteger, ForeignKey, Text, Integer, LargeBinary, Date, func
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime, date
+import uuid
 
 
 Base = declarative_base()
@@ -14,6 +16,7 @@ class Users(Base):
     first_name: Mapped[str] = mapped_column(Text)
     last_name: Mapped[str] = mapped_column(Text)
     patronymic: Mapped[str] = mapped_column(Text)
+    role: Mapped[str] = mapped_column(Text, default="user")
     email: Mapped[str] = mapped_column(Text, unique=True)
     password: Mapped[str] = mapped_column(Text)
     birth_date: Mapped[date] = mapped_column(Date)
@@ -48,3 +51,11 @@ class Tours(Base):
     cost: Mapped[int] = mapped_column(Integer, default=200)
     fort_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("forts.fort_id"))
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
+
+
+class Tickets(Base):
+    __tablename__ = "tickets"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"))
+    tour_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("tours.tour_id"))

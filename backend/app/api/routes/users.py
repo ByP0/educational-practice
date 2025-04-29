@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request, Header
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
 from pydantic import Field
